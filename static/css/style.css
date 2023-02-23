@@ -3,6 +3,25 @@
     padding: 0;
 }
 
+:root {
+    /* Dark theme */
+    --dark-background: #333;
+    --dark-foregeound: #f3f2f2;
+    /* Light theme */
+    --light-background: #fff;
+    --light-foregeound: #000;
+    /* Defaults */
+    --current-background: var(--light-background);
+    --current-foreground: var(--light-foregeound);
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --current-background: var(--dark-background);
+      --current-foreground: var(--dark-foregeound);
+    }
+  }
+
 /* Utilities */
 
 a {
@@ -219,4 +238,64 @@ input::after {
 
 .signup {
     align-self: center;
+}
+
+/* User Showcase */
+.user-showcase {
+    background-image: url(/../static/img/bus2.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    min-height: 100vh;
+}
+
+.user-h1 {
+    padding: 16.5rem 0 0 2rem;
+    color: #00ffe1;
+}
+
+.user-h3 {
+    padding-left: 2rem;
+    color: #00ffe1;
+}
+
+.user-footer {
+    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.2), 0 26px 20px 0 rgba(0, 0, 0, 0.19) inset;
+
+}
+
+/* Route */
+.route-container {
+    min-height: 100vh;
+}
+
+.route-showcase {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.route-h1 {
+    color: #333;
+    font-family: cursive;
+}
+
+.route-form {
+    display: flex;
+    gap: 20%;
+}
+
+/* Reserved */
+.reserved-container {
+    min-height: 100vh;
+}
+
+.reserved-h1 {
+    margin: 1rem 0 0 2rem;
+    font-family: cursive;
+}
+
+.reserved-showcase {
+    display: flex;
+    flex-direction: column;
 }

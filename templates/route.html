@@ -5,32 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/style.css">
-    <title>Login</title>
+    <title>Routes</title>
 </head>
 <body>
     <nav>
         <div class="logo"><a href="index.html"><img src="../static/img/party_bus-removebg-preview.png" width="80px" height="50px" alt=""></a></div>
 
         <div class="links">
-            <a class="nav-link" href="about.html">About Us</a>
-            <a class="nav-link" href="login.html">Login</a>
-            <a class="nav-link" href="signup.html">Sign Up</a>
+            <a class="nav-link" href="route.html">Routes</a>
+            <a class="nav-link" href="reserved.html">Reserved</a>
+            <a class="nav-link" href="index.html">Log Out</a>
         </div>
     </nav>
 
-    <div class="container">
-        <div class="login-container">
-            <h2 class="login-title">Login to Your Account</h2>
-            <form action="" class="login-form">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" focus>
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password">
+
+    <div class="route-container">
+        <div class="route-showcase">
+            <h1 class="route-h1">Search For Available Routes</h1>
+            <form action="" class="route-form">
+                <div>
+                    <label for="source">From:</label>
+                    <input type="text" name="source" id="source">
+                </div>
+                <div>
+                    <label for="destination">To:</label>
+                    <input type="text" name="destination" id="destination">
+                </div>
             </form>
-            <p class="no-account">Don't have an account? <a href="signup.html" class="mini-sign-in">Sign Up</a></p>
         </div>
     </div>
-   
+
     <footer>
         <div class="left card">
             <img src="../static/img/logo-removebg-preview.png" width="80px" height="80px" alt="">
