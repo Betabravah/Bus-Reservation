@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Login</title>
+    <title>Sign Up</title>
 </head>
 <body>
     <nav>
@@ -19,15 +19,31 @@
     </nav>
 
     <div class="container">
-        <div class="login-container">
-            <h2 class="login-title">Login to Your Account</h2>
+        <div class="signup-container">
+            <h2 class="signup-title">Create Account</h2>
             <form action="" class="login-form">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" focus>
+                <label for="username">First Name</label>
+                <input type="text" name="username" id="username">
+
+                <label for="username">Middle Name</label>
+                <input type="text" name="username" id="username">
+
+                <label for="username">Last Name</label>
+                <input type="text" name="username" id="username">
+
+                <label for="dob">Date of Birth</label>
+                <input type="date" name="dob" id="dob">
+
+                <label for="phone">Phone Number</label>
+                <input type="tel" name="phone" id="phone">
+
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password">
+
+                <label for="password">Confirm Password</label>
+                <input type="password" name="password" id="password">
             </form>
-            <p class="no-account">Don't have an account? <a href="signup.html" class="mini-sign-in">Sign Up</a></p>
+            <button type="submit" class="signup">Sign Up</button>
         </div>
     </div>
    
