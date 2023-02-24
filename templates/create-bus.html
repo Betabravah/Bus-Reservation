@@ -12,16 +12,34 @@
         <div class="logo"><a href="index.html"><img src="../static/img/party_bus-removebg-preview.png" width="80px" height="50px" alt=""></a></div>
 
         <div class="links">
-            <a class="nav-link" href="route.html">Routes</a>
-            <a class="nav-link" href="reserved.html">Reserved</a>
+            <a class="nav-link" href="create-route.html">Route</a>
+            <a class="nav-link" href="create-bus.html">Bus</a>
+            <a class="nav-link" href="driver.html">Driver</a>
             <a class="nav-link" href="index.html">Log Out</a>
         </div>
     </nav>
 
 
     <div class="container">
-        <div class="signup-container">
-            <h2 class="signup-title">Add Bus</h2>
+        <div class="menu">
+            <button class="menu-btn create-btn">Add Bus</button>
+            <button class="menu-btn schedule-btn">Assign Bus</button>
+        </div>
+        
+        <div class="form-container create">
+            <h2 class="form-title">Add Bus</h2>
+            <form action="" class="login-form">
+                <label for="username">Capacity</label>
+                <input type="text" name="username" id="username">
+
+                <label for="bus">Bus Number</label>
+                <input type="tel" name="bus" id="bus">
+                </form>
+            <button type="submit" class="signup">Add Bus</button>
+        </div>
+
+        <div class="form-container schedule show">
+            <h2 class="form-title">Asign Bus</h2>
             <form action="" class="login-form">
                 <label for="username">Capacity</label>
                 <input type="text" name="username" id="username">
@@ -60,5 +78,6 @@
     <!-- <div class="copy">
         <div>Sheger Autobus &copy; 2023</div>
     </div> -->
+    <script src="/../static/js/main.js"></script>
 </body>
 </html>
