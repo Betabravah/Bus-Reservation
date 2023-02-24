@@ -46,19 +46,16 @@ body {
     font-family: Arial, Helvetica, sans-serif ;
 }
 nav {
+    padding: 0 2rem;
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */
-    gap: 50rem;
+    justify-content: space-between;
+    /* gap: 50%; */
     background-color: #f8f6f3;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.19);
     position: sticky;
     top: 0;
     z-index: 1;
-}
-
-nav .logo {
-    margin: 0 1rem;
 }
 
 .links {
@@ -71,20 +68,20 @@ nav .logo {
 
 .nav-link {
     text-decoration: none;
-    color: #c506eb;
+    color: #ea00ff;
     
 }
 .nav-link:hover {
-    color: #62d4e8;
+    color: #6264e8;
 }
 
 .nav-link:active {
-    color: #6264e8;
+    color: #62d4e8;
 }
 
 .container  {
     margin: 2rem;
-    min-height: 80vh;
+    min-height: 100vh;
     position: relative;
 }
 
@@ -225,14 +222,19 @@ input::after {
     border: none;
 }
 
-.signup-container {
+.form-container {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    max-width: 30vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25rem;
+
 }
 
-.signup-title {
+.form-title {
     text-align: center;
 }
 
@@ -270,6 +272,19 @@ input::after {
 /* Route */
 .route-container {
     min-height: 100vh;
+}
+
+.menu-btn {
+    background-color: #fff;
+    color: #333;
+    font-size: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.show {
+    display: none;
 }
 
 .route-showcase {
