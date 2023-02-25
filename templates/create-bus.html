@@ -24,16 +24,17 @@
         <div class="menu">
             <button class="menu-btn create-btn">Add Bus</button>
             <button class="menu-btn schedule-btn">Assign Bus</button>
+            <button class="menu-btn scheduled-btn show"></button>
         </div>
         
         <div class="form-container create">
             <h2 class="form-title">Add Bus</h2>
             <form action="" class="login-form">
-                <label for="username">Capacity</label>
-                <input type="text" name="username" id="username">
+                <label for="capacity">Capacity</label>
+                <input type="text" name="capacity" id="capacity">
 
                 <label for="bus">Bus Number</label>
-                <input type="tel" name="bus" id="bus">
+                <input type="text" name="bus" id="bus">
                 </form>
             <button type="submit" class="signup">Add Bus</button>
         </div>
@@ -41,14 +42,15 @@
         <div class="form-container schedule show">
             <h2 class="form-title">Asign Bus</h2>
             <form action="" class="login-form">
-                <label for="username">Capacity</label>
-                <input type="text" name="username" id="username">
+                <label for="bus">Bus ID</label>
+                <input type="text" name="bus" id="bus">
 
-                <label for="bus">Bus Number</label>
-                <input type="tel" name="bus" id="bus">
+                <label for="username">Route ID</label>
+                <input type="text" name="username" id="username">
                 </form>
-            <button type="submit" class="signup">Add Bus</button>
+            <button type="submit" class="signup">Assign Bus</button>
         </div>
+        <div class="scheduled"></div>
     </div>
 
     <footer>

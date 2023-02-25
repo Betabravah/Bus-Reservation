@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Labrada:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Labrada:wght@300;400&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -33,6 +36,7 @@ button {
     color: #fff;
     background-color: #ec47fb;
     border: none;
+    font-family:Labrada;
 }
 
 button:hover {
@@ -43,7 +47,7 @@ button:hover {
 body {
     background-color: #ffffff;
     color: #180318;
-    font-family: Arial, Helvetica, sans-serif ;
+    font-family:Labrada;
 }
 nav {
     padding: 0 2rem;
@@ -61,7 +65,6 @@ nav {
 .links {
     display: flex;
     flex-direction: row;
-    /* justify-content: space-around; */
     gap: 2rem;
     font-size: 1.3rem;
 }
@@ -283,10 +286,6 @@ input::after {
     gap: 1.5rem;
 }
 
-.show {
-    display: none;
-}
-
 .route-showcase {
     position: absolute;
     top: 50%;
@@ -311,6 +310,37 @@ input::after {
 .search {
     padding:1rem;
     margin-bottom: 0.9rem;
+}
+
+.scheduled {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    position: absolute;
+    top: 0;
+    left: 30%;
+    
+}
+
+.scheduled-route-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 90%;
+}
+
+.scheduled-route {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-height: 3.5rem;
+    min-width: 80%;
+    padding: 0 3rem;
+}
+
+.show {
+    display: none;
 }
 
 /* Reserved */
