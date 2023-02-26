@@ -10,12 +10,22 @@
     /* Dark theme */
     --dark-background: #333;
     --dark-foregeound: #f3f2f2;
+    --dark-primary: #62d4e8;
+    --dark-secondary: #ea00ff;
+    --dark-danger: #ef0707;
+
     /* Light theme */
     --light-background: #fff;
     --light-foregeound: #000;
+    --light-primary: #ea00ff;
+    --light-secondary: #62d4e8;
+    --light-danger: #ff3c00;
+
     /* Defaults */
     --current-background: var(--light-background);
     --current-foreground: var(--light-foregeound);
+    --current-primary: #ea00ff;
+    --current-secondary: #62d4e8; 
   }
   
   @media (prefers-color-scheme: dark) {
@@ -34,7 +44,7 @@ a {
 button {
     padding: 0.8rem;
     color: #fff;
-    background-color: #ec47fb;
+    background-color: var(--current-primary);
     border: none;
     font-family:Labrada;
 }
@@ -71,7 +81,7 @@ nav {
 
 .nav-link {
     text-decoration: none;
-    color: #ea00ff;
+    color: var(--current-primary);
     
 }
 .nav-link:hover {
@@ -79,7 +89,7 @@ nav {
 }
 
 .nav-link:active {
-    color: #62d4e8;
+    color: var(--current-secondary);
 }
 
 .container  {
@@ -187,7 +197,7 @@ footer {
     padding: 2rem;
     /* border: 1px solid #333; */
     box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    max-height: 40vh;
+    max-height: 45vh;
     z-index: -1;
 }
 
@@ -210,13 +220,13 @@ footer {
 }
 
 .mini-sign-in {
-    color: #dd00ff;
+    color: var(--current-primary);
 }
 
 
 input {
     border: none;
-    border-bottom: 2px solid #ea00ff;
+    border-bottom: 2px solid var(--current-primary);
     margin: 0.3rem 0 1rem 0;
     outline: none;
   }
@@ -255,12 +265,12 @@ input::after {
 
 .user-h1 {
     padding: 16.5rem 0 0 2rem;
-    color: #00ffe1;
+    color: var(--current-secondary);
 }
 
 .user-h3 {
     padding-left: 2rem;
-    color: #00ffe1;
+    color: var(--current-secondary);
 }
 
 .show-route {
@@ -372,11 +382,12 @@ input::after {
 }
 
 .danger {
-    background-color: rgb(239, 7, 7);
+    background-color: var(--dark-danger);
 }
 
 .danger:hover {
-    background-color: ;
+    background-color: var(--light-danger);
+    color: #fff;
 }
 
 .label-value-pair {
@@ -392,10 +403,10 @@ input::after {
 
 .values {
     font-size: 2rem;
-    color: #ea00ff;
+    color: var(--current-primary);
 }
 
 .no {
     font-size: 2rem;
-    color: #ea00ff;
+    color: var(--current-primary);
 }
