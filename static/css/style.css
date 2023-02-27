@@ -64,7 +64,6 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* gap: 50%; */
     background-color: #f8f6f3;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.19);
     position: sticky;
@@ -124,11 +123,10 @@ nav {
 .cards {
     display: flex;
     justify-content: space-around;
-    margin: 3rem;
+    
 }
 
 .card {
-    /* border-right: 2px solid #6264e8; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -137,7 +135,10 @@ nav {
 
 footer {
     background-color: #f8f6f3;
-    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* background-color: #666; */
+    /* box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    position: sticky;
+    bottom: 0;
     height: 25vh;
     display: flex;
     justify-content: space-around;
@@ -188,12 +189,12 @@ footer {
 
 
 .login-container {
-    /* position: absolute;
+    position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); */
-    margin: 8rem auto;
-    max-width: 28vw;
+    transform: translate(-50%, -50%);
+    /* margin: 8rem auto; */
+    /* max-width: 28vw; */
     padding: 2rem;
     /* border: 1px solid #333; */
     box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -221,6 +222,10 @@ footer {
 
 .mini-sign-in {
     color: var(--current-primary);
+}
+
+.signup-container {
+    min-height: 100vh;
 }
 
 
@@ -409,4 +414,59 @@ input::after {
 .no {
     font-size: 2rem;
     color: var(--current-primary);
+}
+
+
+
+@media(max-width: 480px) {
+    nav {
+        padding: 0.7rem;
+    }
+    .links {
+        font-size: 1rem;
+    }
+    .container {
+        min-height: 60vh;
+    }
+    .user-showcase {
+        min-height: 65vh;
+        /* background-color: #333; */
+    }
+    .user-h1 {
+        padding: 14.4rem 0 0 2rem;
+    }   
+    .ticket {
+        min-width: 60vw;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: baseline;
+        gap: 1%;
+        padding: 1rem;
+        margin: 2rem;
+    }
+    .labels {
+        font-size: 1rem;
+    }
+    .values {
+        font-size: 1.5rem;
+    }
+    .no {
+        font-size: 1rem;
+    }
+    .reserved-h1 {
+        font-size: 1.5rem;
+        margin: 1rem;
+    }
+    .danger {
+        margin: 1rem;
+    }
+    .route-form {
+        flex-direction: column;
+    }
+    .route-h1 {
+        font-size: 1.5rem;
+    }
+    .h1 {
+        font-size: 1.5rem;
+    }
 }
