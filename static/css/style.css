@@ -135,21 +135,12 @@ nav {
 
 footer {
     background-color: #f8f6f3;
-    /* background-color: #666; */
-    /* box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
-    position: sticky;
     bottom: 0;
     height: 25vh;
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
-
-/* .footer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-} */
 
 .left {
     display: flex;
@@ -189,16 +180,15 @@ footer {
 
 
 .login-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* margin: 8rem auto; */
-    /* max-width: 28vw; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 2rem;
-    /* border: 1px solid #333; */
     box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    max-height: 45vh;
+    /* max-height: 45vh; */
+    margin: 3rem auto;
+    max-width: fit-content;
     z-index: -1;
 }
 
@@ -468,5 +458,8 @@ input::after {
     }
     .h1 {
         font-size: 1.5rem;
+    }
+    footer {
+        flex-wrap: wrap;
     }
 }
