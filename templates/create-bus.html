@@ -5,49 +5,54 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/style.css">
-    <title>Sheger Autobus</title>
+    <title>Add Bus</title>
 </head>
 <body>
     <nav>
         <div class="logo"><a href="index.html"><img src="../static/img/party_bus-removebg-preview.png" width="80px" height="50px" alt=""></a></div>
 
         <div class="links">
-            <a class="nav-link" href="about.html">About Us</a>
-            <a class="nav-link" href="login.html">Login</a>
-            <a class="nav-link" href="signup.html">Sign Up</a>
+            <a class="nav-link" href="create-route.html">Route</a>
+            <a class="nav-link" href="create-bus.html">Bus</a>
+            <a class="nav-link" href="driver.html">Driver</a>
+            <a class="nav-link" href="index.html">Log Out</a>
         </div>
     </nav>
 
 
     <div class="container">
-        <div class="showcase">
-            <img src="../static/img/party_bus.jpg" class="showcase-logo" alt="">
-            <h1 class="h1">Sheger Autobus</h1>
-            <h3>Riding a plane!</h3>
+        <div class="menu">
+            <button class="menu-btn create-btn">Add Bus</button>
+            <button class="menu-btn schedule-btn">Assign Bus</button>
+            <button class="menu-btn scheduled-btn show"></button>
         </div>
+        
+        <div class="form-container create">
+            <h2 class="form-title">Add Bus</h2>
+            <form action="" class="login-form">
+                <label for="capacity">Capacity</label>
+                <input type="text" name="capacity" id="capacity">
+
+                <label for="bus">Bus Number</label>
+                <input type="text" name="bus" id="bus">
+                </form>
+            <button type="submit" class="signup">Add Bus</button>
+        </div>
+
+        <div class="form-container schedule show">
+            <h2 class="form-title">Asign Bus</h2>
+            <form action="" class="login-form">
+                <label for="bus">Bus ID</label>
+                <input type="text" name="bus" id="bus">
+
+                <label for="username">Route ID</label>
+                <input type="text" name="username" id="username">
+                </form>
+            <button type="submit" class="signup">Assign Bus</button>
+        </div>
+        <div class="scheduled"></div>
     </div>
-    <section class="cards">
-        <div class="card">
-            <img src="../static/img/happy-removebg-preview.png" width="100px" height="85px" alt="">
-            <h3>14 million</h3>
-            <p>Happy customers</p>
-        </div>
-        <div class="card">
-            <img src="../static/img/logo-removebg-preview.png" width="100px" height="100px" alt="">
-            <h3>Morethan 100, 000</h3>
-            <p>Plane Like Buses</p>
-        </div>
-        <div class="card">
-            <img src="../static/img/award-removebg-preview.png" width="120px" height="100px" alt="">
-            <h3>Winner</h3>
-            <p>of all nominated prizes</p>
-        </div>
-        <div class="card">
-            <img src="../static/img/faq-removebg-preview.png" width="100px" height="90px" alt="">
-            <h3>Questions?</h3>
-            <p>Visit Our Help Center</p>
-        </div>
-    </section>
+
     <footer>
         <div class="left card">
             <img src="../static/img/logo-removebg-preview.png" width="80px" height="80px" alt="">
@@ -75,5 +80,6 @@
     <!-- <div class="copy">
         <div>Sheger Autobus &copy; 2023</div>
     </div> -->
+    <script src="/../static/js/main.js"></script>
 </body>
 </html>
