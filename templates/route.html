@@ -5,48 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/style.css">
-    <title>Sign Up</title>
+    <title>Routes</title>
 </head>
 <body>
     <nav>
         <div class="logo"><a href="index.html"><img src="../static/img/party_bus-removebg-preview.png" width="80px" height="50px" alt=""></a></div>
 
         <div class="links">
-            <a class="nav-link" href="about.html">About Us</a>
-            <a class="nav-link" href="login.html">Login</a>
-            <a class="nav-link" href="signup.html">Sign Up</a>
+            <a class="nav-link" href="route.html">Routes</a>
+            <a class="nav-link" href="reserved.html">Reserved</a>
+            <a class="nav-link" href="index.html">Log Out</a>
         </div>
     </nav>
 
-    <div class="signup-container">
-        <div class="form-container">
-            <h2 class="form-title">Create Account</h2>
-            <form action="" class="login-form">
-                <label for="username">First Name</label>
-                <input type="text" name="username" id="username">
 
-                <label for="username">Middle Name</label>
-                <input type="text" name="username" id="username">
-
-                <label for="username">Last Name</label>
-                <input type="text" name="username" id="username">
-
-                <label for="dob">Date of Birth</label>
-                <input type="date" name="dob" id="dob">
-
-                <label for="phone">Phone Number</label>
-                <input type="tel" name="phone" id="phone">
-
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password">
-
-                <label for="password">Confirm Password</label>
-                <input type="password" name="password" id="password">
+    <div class="route-container">
+        <h1 class="route-h1">See Available Routes</h1>
+        <div class="route-showcase">
+            <form action="" class="route-form">
+                <div>
+                    <label for="source">From</label>
+                    <input type="text" name="source" id="source">
+                </div>
+                <div>
+                    <label for="destination">To</label>
+                    <input type="text" name="destination" id="destination">
+                </div>
+                <button class="search">Search</button>
             </form>
-            <button type="submit" class="signup">Sign Up</button>
         </div>
     </div>
-   
+
     <footer>
         <div class="left card">
             <img src="../static/img/logo-removebg-preview.png" width="80px" height="80px" alt="">

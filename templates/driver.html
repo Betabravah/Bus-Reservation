@@ -5,22 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/style.css">
-    <title>Sign Up</title>
+    <title>Add Driver</title>
 </head>
 <body>
     <nav>
         <div class="logo"><a href="index.html"><img src="../static/img/party_bus-removebg-preview.png" width="80px" height="50px" alt=""></a></div>
 
         <div class="links">
-            <a class="nav-link" href="about.html">About Us</a>
-            <a class="nav-link" href="login.html">Login</a>
-            <a class="nav-link" href="signup.html">Sign Up</a>
+            <a class="nav-link" href="create-route.html">Route</a>
+            <a class="nav-link" href="create-bus.html">Bus</a>
+            <a class="nav-link" href="driver.html">Driver</a>
+            <a class="nav-link" href="index.html">Log Out</a>
         </div>
     </nav>
 
-    <div class="signup-container">
-        <div class="form-container">
-            <h2 class="form-title">Create Account</h2>
+
+    <div class="container">
+        <div class="menu">
+            <button class="menu-btn create-btn">Add Driver</button>
+            <button class="menu-btn schedule-btn">Assign Driver</button>
+            <button class="menu-btn scheduled-btn show">Assign Driver</button>
+        </div>
+
+        <div class="form-container create">
+            <h2 class="form-title">Add Driver</h2>
             <form action="" class="login-form">
                 <label for="username">First Name</label>
                 <input type="text" name="username" id="username">
@@ -36,17 +44,26 @@
 
                 <label for="phone">Phone Number</label>
                 <input type="tel" name="phone" id="phone">
-
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password">
-
-                <label for="password">Confirm Password</label>
-                <input type="password" name="password" id="password">
-            </form>
-            <button type="submit" class="signup">Sign Up</button>
+                </form>
+            <button type="submit" class="signup">Add Driver</button>
         </div>
+
+        <div class="form-container schedule show">
+            <h2 class="form-title">Assign Driver</h2>
+            <form action="" class="login-form">
+                <label for="username">Driver ID</label>
+                <input type="text" name="username" id="username">
+
+                <label for="bus">Bus ID</label>
+                <input type="text" name="bus" id="bus">
+
+                </form>
+            <button type="submit" class="signup">Assign Driver</button>
+        </div>
+
+        <div class="scheduled"></div>
     </div>
-   
+
     <footer>
         <div class="left card">
             <img src="../static/img/logo-removebg-preview.png" width="80px" height="80px" alt="">
@@ -74,5 +91,6 @@
     <!-- <div class="copy">
         <div>Sheger Autobus &copy; 2023</div>
     </div> -->
+    <script src="/../static/js/main.js"></script>
 </body>
 </html>
