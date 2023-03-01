@@ -89,11 +89,37 @@ class User(db.Model):
             return None
 
 
+    @staticmethod
+    def get_all_drivers():
+        """Queries All Drivers from Databse
+        
+        Returns:
+            List: list of User objects"""
+        
+        drivers = User.query.filter_by(
+            role=UserRole.DRIVER
+        ).all()
+
+        return drivers
+    
+
+    @staticmethod
+    def get_all_customers():
+        """Queries All Customers from Databse
+        
+        Returns:
+            List: list of User objects"""
+        
+        customers = User.query.filter_by(
+            role=UserRole.CUSTOMER
+        ).all()
+
+        return customers
+    
+
     def __repr__(self):
         return f"user(id={self.id}, first_name={self.firstname}, last_name={self.lastname}, role={self.role})"
 
-    
-    
 
 
 class Bus(db.Model):
@@ -122,6 +148,17 @@ class Bus(db.Model):
             return bus
         except:
             return None
+        
+    @staticmethod
+    def get_all_buses():
+        """Gets all Buses
+        
+        Returns:
+            List: list of Bus objects
+        """
+        buses = Bus.query.all()
+        return buses
+    
 
     def __repr__(self):
         return f"Bus(id={self.id}, capacity={self.capacity})"
@@ -155,6 +192,15 @@ class Route(db.Model):
             return route
         except:
             return None
+        
+    @staticmethod
+    def get_all_routes():
+        """Gets all Routes
+        Returns:
+            List: list of routes"""
+        
+        routes = Route.query.all()
+        return routes
 
 
     def __repr__(self):

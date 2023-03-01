@@ -18,7 +18,7 @@ create table User (
     `address` varchar(50),
     phonenumber varchar(15),
     `role` Enum('CUSTOMER', 'ADMINISTRATOR', 'DRIVER'),
-    `password` varchar(128) not null
+    `password` varchar(128)
 );
 
 create table Route (
