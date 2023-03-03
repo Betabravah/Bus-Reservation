@@ -1,8 +1,11 @@
 import os
-from flask import Flask, redirect, url_for, request
+import jwt
+from datetime import datetime, timedelta
+from flask import Flask, redirect, url_for, request, session
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 
+from auth import AuthentcationManager
 from route import route_bp
 from bus import bus_bp
 from driver import driver_bp
@@ -37,7 +40,21 @@ def unauthorized():
 
 @app.route('/')
 def home():
-    return
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    else:
+        return 'Logged In Currently'
+
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    if request.form.get('username') and request.form.get('password'):
+        session['logged_in'] = True
+        token = jwt.encode({
+            'user': request.form.get('username'),
+            'expiration': datetime.utcnow() + timedelta(seconds=120)
+        })
 
 
 
