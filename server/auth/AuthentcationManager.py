@@ -2,6 +2,8 @@ import os
 import jwt
 from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError
 from werkzeug.security import check_password_hash
+from functools import wraps
+from flask import request, jsonify, make_response
 
 
 from model import User
@@ -102,4 +104,5 @@ class AuthenicationManager:
             if user.token == token:
                 return user
 
-            
+                
+    
