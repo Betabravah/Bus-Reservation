@@ -11,7 +11,7 @@ customer_bp = Blueprint('customer_bp', __name__)
 
 
 @customer_bp.route('/', methods=['GET'])
-def see_drivers():
+def see_customers():
     customers = User.get_all_customers()
 
     jsonList = []
@@ -34,7 +34,7 @@ def see_drivers():
     return response
 
 
-@customer_bp.route('/', methods=['POST'])
+@customer_bp.route('/register', methods=['POST'])
 def add():
     id = uuid4()
     firstname = request.form.get('firstname')
