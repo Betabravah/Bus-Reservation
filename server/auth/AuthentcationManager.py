@@ -104,28 +104,29 @@ class AuthenicationManager:
             if user.token == token:
                 return user
 
-    @staticmethod      
-    def token_required(func):
-        @wraps(func)
-        def decorator(*args, **kwargs):
-            token = None
+auth_manager = AuthenicationManager(os.getenv('FLASK_SECRET_KEY'))
 
-            if 'access-token' in request.headers:
-                token = request.headers['access-token']
+def token_required(func):
+    @wraps(func)
+    def decorator(*args, **kwargs):
+        token = None
 
-            if not token:
-                return make_response(
-                    jsonify({'message': "A Valid Token is Missing!"}),
-                    401
-                )
-            try:
-                data = verify_token(token)
-                current_user = User.get(data['username']).first()
+        if 'access-token' in request.headers:
+            token = request.headers['access-token']
 
-            except:
-                return make_response(
-                    jsonify({'message': 'Invalid Token!'}),
-                    401
-                )
-            return func(current_user, *args, **kwargs)
-        return decorator
+        if not token:
+            return make_response(
+                jsonify({'message': "A Valid Token is Missing!"}),
+                401
+            )
+        try:
+            data = auth_manager.verify_token(token)
+            current_user = User.get(data['username']).first()
+
+        except:
+            return make_response(
+                jsonify({'message': 'Invalid Token!'}),
+                401
+            )
+        return func(current_user, *args, **kwargs)
+    return decorator

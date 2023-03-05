@@ -3,14 +3,15 @@ import jwt
 from datetime import datetime, timedelta
 from flask import Flask, redirect, url_for, request, session, make_response, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash
+from flask_jwt_extended import unset_jwt_cookies
 
-
-from auth import AuthentcationManager
+from auth import AuthentcationManager, token_required
 from route import route_bp
 from bus import bus_bp
 from driver import driver_bp
 from customer import customer_bp
-from model import db, User
+from model import db, User, UserRole
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
@@ -68,6 +69,79 @@ def login():
             'Could Not Verify',
             401
         )
+
+
+@app.route('/register-customer', methods=['POST'])
+def register():
+    fname = request.form.get('firstname')
+    mname = request.form.get('middlename')
+    lname = request.form.get('lastname')
+    dob = request.form.get('dob')
+    phone = request.form.get('phone')
+    password = request.form.get('password')
+    confirm = request.form.get('confirm')
+
+    if password != confirm:
+        return make_response(
+            "Passwords Do Not Match!",
+            401)
+    
+    new_user = User(firstname=fname, middlename=mname, lastname=lname,
+                    dob=dob, phonenumber=phone, role=UserRole.CUSTOMER,
+                    password=generate_password_hash(password))
+    
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+    except:
+        return make_response(
+            "Customer Already Exists",
+            401
+        )
+    
+
+@app.route('/register-driver', methods=['POST'])
+def register():
+    fname = request.form.get('firstname')
+    mname = request.form.get('middlename')
+    lname = request.form.get('lastname')
+    dob = request.form.get('dob')
+    phone = request.form.get('phone')
+    password = request.form.get('password')
+    confirm = request.form.get('confirm')
+
+    if password != confirm:
+        return make_response(
+            "Passwords Do Not Match!",
+            401)
+    
+    new_user = User(firstname=fname, middlename=mname, lastname=lname,
+                    dob=dob, phonenumber=phone, role=UserRole.DRIVER,
+                    password=generate_password_hash(password))
+    
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+    except:
+        return make_response(
+            "Driver Already Exists",
+            401
+        )
+    
+
+
+@app.route('/logout')
+@token_required
+def logout():
+    response = jsonify({'message': 'Successfully Logged Out'})
+    unset_jwt_cookies(response)
+    return response
+
+
+
+
+
+
 
 
 if __name__ == "__main__":

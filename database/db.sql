@@ -15,7 +15,6 @@ create table User (
     firstname varchar(50) not null,
     middlename varchar(50) not null,
     lastname varchar(50) not null,
-    `address` varchar(50),
     phonenumber varchar(15),
     `role` Enum('CUSTOMER', 'ADMINISTRATOR', 'DRIVER'),
     `password` varchar(128)

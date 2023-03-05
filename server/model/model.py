@@ -35,7 +35,7 @@ class User(db.Model):
     firstname = db.Column(db.String(50))
     middlename = db.Column(db.String(50))
     lastname = db.Column(db.String(50))
-    address = db.Column(db.String(50))
+    dob = db.Column(db.DateTime)
     phonenumber = db.Column(db.String(15))
 
     @staticmethod
