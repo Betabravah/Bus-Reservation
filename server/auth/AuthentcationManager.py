@@ -104,5 +104,28 @@ class AuthenicationManager:
             if user.token == token:
                 return user
 
-                
-    
+    @staticmethod      
+    def token_required(func):
+        @wraps(func)
+        def decorator(*args, **kwargs):
+            token = None
+
+            if 'access-token' in request.headers:
+                token = request.headers['access-token']
+
+            if not token:
+                return make_response(
+                    jsonify({'message': "A Valid Token is Missing!"}),
+                    401
+                )
+            try:
+                data = verify_token(token)
+                current_user = User.get(data['username']).first()
+
+            except:
+                return make_response(
+                    jsonify({'message': 'Invalid Token!'}),
+                    401
+                )
+            return func(current_user, *args, **kwargs)
+        return decorator

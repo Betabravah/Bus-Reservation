@@ -1,6 +1,5 @@
 import os
 import jwt
-from functools import wraps
 from datetime import datetime, timedelta
 from flask import Flask, redirect, url_for, request, session, make_response, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -27,42 +26,8 @@ app.register_blueprint(customer_bp, url_prefix='/customers')
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+print(os.getenv('FLASK_SECRET_KEY'))
 auth_manager = AuthentcationManager(os.getenv('FLASK_SECRET_KEY'))
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
-
-@login_manager.unauthorized_handler
-def unauthorized():
-    return redirect(url_for('login'))
-
-
-def token_required(func):
-        @wraps(func)
-        def decorator(*args, **kwargs):
-            token = None
-
-            if 'access-token' in request.headers:
-                token = request.headers['access-token']
-
-            if not token:
-                return make_response(
-                    jsonify({'message': "A Valid Token is Missing!"}),
-                    401
-                )
-            try:
-                data = auth_manager.verify_token(token)
-                current_user = User.get(data['username']).first()
-
-            except:
-                return make_response(
-                    jsonify({'message': 'Invalid Token!'}),
-                    401
-                )
-            return func(current_user, *args, **kwargs)
-        return decorator
 
 
 
@@ -74,7 +39,6 @@ def home():
         return 'Logged In Currently'
 
 
-@token_required
 @app.route('/login', methods=['POST'])
 def login():
 

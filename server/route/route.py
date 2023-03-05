@@ -2,7 +2,6 @@ from flask import json, abort
 from werkzeug.exceptions import HTTPException
 
 from flask import Blueprint, request, make_response, jsonify
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import current_user
 from uuid import uuid4
 
@@ -44,7 +43,7 @@ def add():
     db.session.commit()
 
 
-@route_bp.route('/scheduledroutes', mehtods=['POST'])
+@route_bp.route('/scheduledroutes', methods=['POST'])
 def schedule():
     if current_user.role == UserRole.ADMINISTRATOR:
         id = uuid4()
@@ -61,7 +60,7 @@ def schedule():
         db.commit()
     
 
-@route_bp('/scheduledroutes', methods=['GET'])
+@route_bp.route('/scheduledroutes', methods=['GET'])
 def see_scheduled_routes():
     routes = ScheduledRoute.get_all_scheduled()
 

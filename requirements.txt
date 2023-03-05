@@ -1,7 +1,7 @@
 flask
-flask-login
 flask-sqlalchemy
 bcrypt
 PyJWT
 flask-jwt-extended
-functools
+# functools
+python-dotenv

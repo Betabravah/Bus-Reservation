@@ -33,10 +33,10 @@ class User(db.Model):
     password = db.Column(db.String(128))
     role = db.Column(db.Enum(UserRole.CUSTOMER, UserRole.ADMINISTRATOR, UserRole.DRIVER))
     firstname = db.Column(db.String(50))
-    middlename = db.Coulmn(db.String(50))
+    middlename = db.Column(db.String(50))
     lastname = db.Column(db.String(50))
-    address = db.Coulmn(db.String(50))
-    phonenumber = db.Coulmn(db.String(15))
+    address = db.Column(db.String(50))
+    phonenumber = db.Column(db.String(15))
 
     @staticmethod
     def get(user_id: str):
@@ -220,13 +220,13 @@ class ScheduledRoute(db.Model):
     """
 
     id = db.Column(db.String(10), primary_key=True)
-    busId = db.Column(db.String(10), db.ForiegnKey(Bus.id))
-    routeId = db.clumn(db.String(10), db.ForiegnKey(Route.id))
+    busId = db.Column(db.String(10), db.ForeignKey(Bus.id))
+    routeId = db.Column(db.String(10), db.ForeignKey(Route.id))
     departureTime = db.Column(db.DateTime, default=datetime.now)
-    arrivalTime = db.Column(db.Datetime)
+    arrivalTime = db.Column(db.DateTime, default=datetime.now)
 
-    bus = db.relationship(Bus, foriegn_key=[busId])
-    route = db.relationship(Route, foriegn_key=[routeId])
+    bus = db.relationship(Bus, foreign_keys=[busId])
+    route = db.relationship(Route, foreign_keys=[routeId])
 
 
     @staticmethod
@@ -256,16 +256,16 @@ class Reservation(db.Model):
             purchaseDate (datetime): time of reservation
     """
 
-    id = db.Coulmn(db.String(10))
-    customerId = db.Coulmn(db.String(10), db.ForiegnKey((User.id)))
-    busId = db.Column(db.String(10), db.ForiegnKey(Bus.id))
-    scheduledRouteId = db.Column(db.String(10), db.ForiegnKey(Route.id))
-    seatNumber = db.Coulmn(db.Integer)
-    purchaseDate = db.Column(db.Datetime, default=datetime.now)
+    id = db.Column(db.String(10), primary_key=True)
+    customerId = db.Column(db.String(10), db.ForeignKey(User.id))
+    busId = db.Column(db.String(10), db.ForeignKey(Bus.id))
+    scheduledRouteId = db.Column(db.String(10), db.ForeignKey(Route.id))
+    seatNumber = db.Column(db.Integer)
+    purchaseDate = db.Column(db.DateTime, default=datetime.now)
 
 
-    bus = db.relationship(Bus, foriegn_keys=[busId])
-    scheduledRouteId = db.relationship(ScheduledRoute, foriegn_key=[scheduledRouteId])
+    bus = db.relationship(Bus, foreign_keys=[busId])
+    scheduledRouteId = db.relationship(ScheduledRoute, foreign_keys=[scheduledRouteId])
 
 
     @staticmethod
