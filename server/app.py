@@ -138,15 +138,23 @@ def logout():
     return response
 
 
+
 app.route('/delete', methods=['POST'])
 @token_required
 def delete():
     id = request.json.get('id')
     user = db.session.query(User).filter(User.id==id).first()
+    
+    if user:
+        db.session.delete(user)
+        db.session.commit()
 
-    db.session.delete(user)
-    db.session.commit()
-
+        return ('', 204)
+    
+    return make_response(
+        "Not Found!",
+        404
+    )
 
 
 
