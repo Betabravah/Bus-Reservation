@@ -84,7 +84,7 @@ def register():
     if password != confirm:
         return make_response(
             "Passwords Do Not Match!",
-            401)
+            400)
     
     if User.get_by_email(email):
         return make_response(
