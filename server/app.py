@@ -41,22 +41,22 @@ def home():
 @app.route('/login', methods=['POST'])
 def login():
 
-    auth = request.get_json()
-    username = auth.get('username')
-    password = auth.get('password')
+    email = request.json.get('email')
+    password = request.json.get('password')
 
-    if username and password:
-        if auth_manager.verify_credentials(username, password):
-            user = User.get(username)
-            token = jwt.encode({
-                'user': auth.get('username'),
-                'role': user.role,
-                'expiration': datetime.utcnow() + timedelta(seconds=120)
-            })
+    if email and password:
+        if auth_manager.verify_credentials(email, password):
+            user = User.get_by_email(email)
+            token = auth_manager.generate_jwt_token(
+                {
+                    "id": user.id,
+                    "role": user.role
+                }
+            )
 
             return make_response(
-                jsonify({'token': token}),
-                201
+                jsonify({"token": token}),
+                200
             )
         else:
             return make_response(
@@ -65,7 +65,7 @@ def login():
     else:
         return make_response(
             'Could Not Verify',
-            401
+            400
         )
 
 

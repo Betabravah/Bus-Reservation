@@ -67,19 +67,19 @@ class AuthenticationManager:
         except InvalidSignatureError:
             return None
         
-    def verify_credentials(self, username: str, password: str) -> bool:
+    def verify_credentials(self, email: str, password: str) -> bool:
         """
         Verifies the existence of given credentials in database
 
         Args:
-            username (str): username of user
+            email (str): email of user
             password (str): password of user
 
         Returns:
-            bool: True if username and password are valid, False otherwise
+            bool: True if email and password are valid, False otherwise
         """
 
-        user = User.get(username)
+        user = User.get_by_email(email)
         if not user:
             return False
         
