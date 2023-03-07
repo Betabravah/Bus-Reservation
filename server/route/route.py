@@ -2,7 +2,6 @@ from flask import json, abort
 from werkzeug.exceptions import HTTPException
 
 from flask import Blueprint, request, make_response, jsonify
-from flask_login import current_user
 from uuid import uuid4
 
 

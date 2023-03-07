@@ -2,11 +2,9 @@ import os
 import jwt
 from datetime import datetime, timedelta
 from flask import Flask, redirect, url_for, request, session, make_response, jsonify
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash
-from flask_jwt_extended import unset_jwt_cookies
 
-from auth import AuthentcationManager, token_required
+from auth import AuthenticationManager, token_required
 from route import route_bp
 from bus import bus_bp
 from driver import driver_bp
@@ -15,8 +13,10 @@ from model import db, User, UserRole
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:@localhost:3306/brs"
 
+
+db.init_app(app)
 
 app.register_blueprint(route_bp, url_prefix='/routes')
 app.register_blueprint(bus_bp, url_prefix='/buses')
@@ -24,11 +24,9 @@ app.register_blueprint(driver_bp, url_prefix='/drivers')
 app.register_blueprint(customer_bp, url_prefix='/customers')
 
 
-login_manager = LoginManager()
-login_manager.init_app(app)
 
 print(os.getenv('FLASK_SECRET_KEY'))
-auth_manager = AuthentcationManager(os.getenv('FLASK_SECRET_KEY'))
+auth_manager = AuthenticationManager(os.getenv('FLASK_SECRET_KEY'))
 
 
 
@@ -71,70 +69,46 @@ def login():
         )
 
 
-@app.route('/register-customer', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def register():
-    fname = request.form.get('firstname')
-    mname = request.form.get('middlename')
-    lname = request.form.get('lastname')
-    dob = request.form.get('dob')
-    phone = request.form.get('phone')
-    password = request.form.get('password')
-    confirm = request.form.get('confirm')
+    fname = request.json.get('firstname')
+    lname = request.json.get('lastname')
+    email = request.json.get('email')
+    dob = request.json.get('dob')
+    phone = request.json.get('phone')
+    role = request.json.get('role')
+    password = request.json.get('password')
+    confirm = request.json.get('confirm')
+
 
     if password != confirm:
         return make_response(
             "Passwords Do Not Match!",
             401)
     
-    new_user = User(firstname=fname, middlename=mname, lastname=lname,
-                    dob=dob, phonenumber=phone, role=UserRole.CUSTOMER,
-                    password=generate_password_hash(password))
-    
-    try:
-        db.session.add(new_user)
-        db.session.commit()
-    except:
+    if User.get_by_email(email):
         return make_response(
-            "Customer Already Exists",
-            401
+            "User Already exists",
+            400
         )
     
-
-@app.route('/register-driver', methods=['POST'])
-def register():
-    fname = request.form.get('firstname')
-    mname = request.form.get('middlename')
-    lname = request.form.get('lastname')
-    dob = request.form.get('dob')
-    phone = request.form.get('phone')
-    password = request.form.get('password')
-    confirm = request.form.get('confirm')
-
-    if password != confirm:
-        return make_response(
-            "Passwords Do Not Match!",
-            401)
-    
-    new_user = User(firstname=fname, middlename=mname, lastname=lname,
-                    dob=dob, phonenumber=phone, role=UserRole.DRIVER,
+    new_user = User(firstname=fname, lastname=lname, email=email,
+                    dob=dob, phonenumber=phone, role=role,
                     password=generate_password_hash(password))
     
-    try:
-        db.session.add(new_user)
-        db.session.commit()
-    except:
-        return make_response(
-            "Driver Already Exists",
-            401
-        )
-    
+    db.session.add(new_user)
+    db.session.commit()
+    return make_response (
+        "User Created successfully",
+        201
+    )
+        
 
 
 @app.route('/logout')
 @token_required
 def logout():
     response = jsonify({'message': 'Successfully Logged Out'})
-    unset_jwt_cookies(response)
     return response
 
 

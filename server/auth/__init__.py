@@ -1,1 +1,1 @@
-from .AuthentcationManager import *
+from .AuthenticationManager import *

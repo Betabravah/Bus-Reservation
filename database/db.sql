@@ -6,29 +6,30 @@ use brs;
 
 
 create table Bus (
-    id varchar(10) primary key,
+    id varchar(10) primary key not null,
     capacity int not null        
 );
 
 create table User (
-    id varchar(10) primary key,
+    id int primary key auto_increment not null,
     firstname varchar(50) not null,
-    middlename varchar(50) not null,
     lastname varchar(50) not null,
+    email varchar(50) not null,
+    dob datetime,
     phonenumber varchar(15),
     `role` Enum('CUSTOMER', 'ADMINISTRATOR', 'DRIVER'),
     `password` varchar(128)
 );
 
 create table Route (
-    id varchar(10) primary key,
+    id varchar(10) primary key not null,
     source varchar(50) not null,
     destination varchar(50) not null
 )
 
 
 create table ScheduledRoute (
-    id varchar(10) primary key,
+    id varchar(10) primary key not null,
     busId varchar(10) not null,
     routeId varchar(10) not null,
     departureTime datetime not null,
@@ -41,7 +42,7 @@ create table ScheduledRoute (
 
 
 create table Reservation (
-    id varchar(10) primary key,
+    id varchar(10) primary key not null,
     customerId varchar(10) not null,
     busId varchar(10) not null,
     scheduledRouteId varchar(10) not null,
@@ -50,6 +51,6 @@ create table Reservation (
 
     foreign key (customerId) references customer(id),
     foreign key (busId) references bus(id),
-    foreign key (routeId) references ScheduledRoute(id)
+    foreign key (scheduledRouteId) references ScheduledRoute(id)
 );
 

@@ -9,7 +9,7 @@ from flask import request, jsonify, make_response
 from model import User
 
 
-class AuthenicationManager:
+class AuthenticationManager:
     """class used to manage authentication of a user"""
 
     def __init__(self, key: str, age: int = 604800) -> None:
@@ -96,7 +96,7 @@ class AuthenicationManager:
         Returns:
             User: user object for which token belongs to, None otherwise"""
         
-        auth_manager = AuthenicationManager(secret_key)
+        auth_manager = AuthenticationManager(secret_key)
         user_id = auth_manager.verify_token(token)
 
         if user_id:
@@ -104,7 +104,7 @@ class AuthenicationManager:
             if user.token == token:
                 return user
 
-auth_manager = AuthenicationManager(os.getenv('FLASK_SECRET_KEY'))
+auth_manager = AuthenticationManager(os.getenv('FLASK_SECRET_KEY'))
 
 def token_required(func):
     @wraps(func)

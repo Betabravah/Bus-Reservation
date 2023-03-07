@@ -1,5 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
 
 from datetime import datetime
 
@@ -29,17 +28,17 @@ class User(db.Model):
             phonenumber (str): phone number of user
     """
 
-    id = db.Column(db.String(10), primary_key=True)
-    password = db.Column(db.String(128))
-    role = db.Column(db.Enum(UserRole.CUSTOMER, UserRole.ADMINISTRATOR, UserRole.DRIVER))
+    id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(50))
-    middlename = db.Column(db.String(50))
     lastname = db.Column(db.String(50))
+    email = db.Column(db.String(50))
     dob = db.Column(db.DateTime)
     phonenumber = db.Column(db.String(15))
+    role = db.Column(db.Enum(UserRole.CUSTOMER, UserRole.ADMINISTRATOR, UserRole.DRIVER))
+    password = db.Column(db.String(128))
 
     @staticmethod
-    def get(user_id: str):
+    def get_by_id(user_id: str):
         """Queries User from Databse
         Args:
             user_id (str): user id
@@ -48,6 +47,20 @@ class User(db.Model):
         
         try: 
             user = User.query.filter_by(id=user_id).first()
+            return user
+        except:
+            return None
+    
+    @staticmethod
+    def get_by_email(user_email: str):
+        """Queries User from Databse
+        Args:
+            user_email (str): user email
+        Returns:
+            User: user object if found else None"""
+        
+        try: 
+            user = User.query.filter_by(email=user_email).first()
             return user
         except:
             return None
@@ -259,13 +272,14 @@ class Reservation(db.Model):
     id = db.Column(db.String(10), primary_key=True)
     customerId = db.Column(db.String(10), db.ForeignKey(User.id))
     busId = db.Column(db.String(10), db.ForeignKey(Bus.id))
-    scheduledRouteId = db.Column(db.String(10), db.ForeignKey(Route.id))
+    scheduledRouteId = db.Column(db.String(10), db.ForeignKey(ScheduledRoute.id))
     seatNumber = db.Column(db.Integer)
     purchaseDate = db.Column(db.DateTime, default=datetime.now)
 
 
     bus = db.relationship(Bus, foreign_keys=[busId])
-    scheduledRouteId = db.relationship(ScheduledRoute, foreign_keys=[scheduledRouteId])
+    customer = db.relationship(User, foreign_keys=[customerId])
+    scheduledRoute = db.relationship(ScheduledRoute, foreign_keys=[scheduledRouteId])
 
 
     @staticmethod

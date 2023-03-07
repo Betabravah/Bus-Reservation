@@ -2,6 +2,6 @@ flask
 flask-sqlalchemy
 bcrypt
 PyJWT
-flask-jwt-extended
 # functools
 python-dotenv
+pymysql
