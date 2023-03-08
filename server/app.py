@@ -1,19 +1,20 @@
 import os
-import jwt
-from datetime import datetime, timedelta
 from flask import Flask, redirect, url_for, request, session, make_response, jsonify
 from werkzeug.security import generate_password_hash
+from dotenv import load_dotenv
 
-from auth import AuthenticationManager, token_required
+from auth import AuthenticationManager, token_required, token, current_user
 from route import route_bp
 from bus import bus_bp
 from driver import driver_bp
 from customer import customer_bp
 from model import db, User, Blacklist
 
+load_dotenv()
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:@localhost:3306/brs"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 
 
 db.init_app(app)
@@ -48,8 +49,8 @@ def login():
             token = auth_manager.generate_jwt_token(
                 {
                     "id": user.id,
-                    "role": user.role,
-                    "date": str(datetime.now)
+                    "role": user.role,                    
+
                 }
             )
 
@@ -108,10 +109,7 @@ def register():
 @token_required
 def logout():
 
-    data = auth_manager.verify_token(token)
-    time = data['expiry']
-
-    new_blacklist = Blacklist(token=token, expiry=time)
+    new_blacklist = Blacklist(token=token)
 
     db.session.add(new_blacklist)
     db.session.commit()
@@ -120,22 +118,16 @@ def logout():
 
 
 
-app.route('/delete', methods=['POST'])
+@app.route('/delete', methods=['DELETE'])
 @token_required
-def delete(x):
-    id = request.json.get('id')
-    user = db.session.query(User).filter(User.id==id).first()
+def delete():
     
-    if user:
-        db.session.delete(user)
-        db.session.commit()
+    db.session.delete(current_user)
+    db.session.commit()
 
-        return ('', 204)
+    return ('', 204)
     
-    return make_response(
-        "Not Found!",
-        404
-    )
+    
 
 
 

@@ -57,6 +57,5 @@ create table Reservation (
 
 create table Blacklist (
     id int primary key auto_increment not null,
-    token varchar(500) not null,
-    expiry datetime not null
+    token varchar(500) not null
 );

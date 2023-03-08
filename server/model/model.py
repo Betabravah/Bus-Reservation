@@ -320,12 +320,10 @@ class Blacklist(db.Model):
     Parameters:
             id (int): token id
             token (str): token
-            expiry_date (datetime): expiry date of token
     """
 
     id = db.Column(db.Integer, primary_key=True)
     token = db.Column(db.String(500))
-    expiry = db.Column(db.DateTime, default=datetime.now)
 
 
     @staticmethod

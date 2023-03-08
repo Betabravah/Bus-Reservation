@@ -1,5 +1,6 @@
 import os
 import jwt
+from datetime import datetime, timedelta
 from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError
 from werkzeug.security import check_password_hash
 from functools import wraps
@@ -33,10 +34,10 @@ class AuthenticationManager:
         Returns:
             str: a signed string that can later be loaded
         """
-        
+        data['exp'] = datetime.now() + timedelta(seconds=self.age)
         token =  jwt.encode(
             data,
-            key=os.getenv('FLASK_SECRET_KEY'),
+            key=self.key,
             algorithm='HS256'
         )
 
@@ -106,6 +107,9 @@ class AuthenticationManager:
 
 auth_manager = AuthenticationManager(os.getenv('FLASK_SECRET_KEY'))
 
+token = ""
+current_user = ""
+
 def token_required(func):
     @wraps(func)
     def decorator(*args, **kwargs):
@@ -129,14 +133,27 @@ def token_required(func):
             
         data = auth_manager.verify_token(token)
         if data:
-            func.__globals__["current_user"] = User.get_by_id(data['id']).first()
-            func.__globals__["token"] = token
+
+            try:
+                
+                func.__globals__["current_user"] = User.get_by_id(data['id'])
+                func.__globals__["token"] = token
+                
+                result =  func(*args, **kwargs)
+                
+                return result
+            
+            finally:
+                func.__globals__.pop("current_user")
+                func.__globals__.pop("token")
         
         else:
             return make_response(
                 jsonify({'message': 'Invalid Token!'}),
                 401
             )
-        return func(*args, **kwargs)
+        
+
+    
     return decorator
 
