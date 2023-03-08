@@ -6,7 +6,7 @@ from functools import wraps
 from flask import request, jsonify, make_response
 
 
-from model import User
+from model import db, User, Blacklist
 
 
 class AuthenticationManager:
@@ -36,7 +36,7 @@ class AuthenticationManager:
         
         token =  jwt.encode(
             data,
-            os.getenv('FLASK_SECRET_KEY'),
+            key=os.getenv('FLASK_SECRET_KEY'),
             algorithm='HS256'
         )
 
@@ -57,8 +57,8 @@ class AuthenticationManager:
         try:
             payload = jwt.decode(
                 token,
-                key = self.key,
-                algorithms=[token.header_data['alg'], ]
+                key = os.getenv('FLASK_SECRET_KEY'),
+                algorithms='HS256'
             )
             return payload
         
@@ -114,19 +114,29 @@ def token_required(func):
         if 'access-token' in request.headers:
             token = request.headers['access-token']
 
-        if not token:
-            return make_response(
-                jsonify({'message': "A Valid Token is Missing!"}),
-                401
-            )
-        try:
-            data = auth_manager.verify_token(token)
-            current_user = User.get(data['username']).first()
-
-        except:
+            if token:
+                blacklist = Blacklist.get(token)
+                if blacklist:
+                    return make_response(
+                        "Invalid Token",
+                        401
+                    )
+            else:
+                return make_response(
+                    jsonify({'message': "A Valid Token is Missing!"}),
+                    401
+                )
+            
+        data = auth_manager.verify_token(token)
+        if data:
+            func.__globals__["current_user"] = User.get_by_id(data['id']).first()
+            func.__globals__["token"] = token
+        
+        else:
             return make_response(
                 jsonify({'message': 'Invalid Token!'}),
                 401
             )
-        return func(current_user, *args, **kwargs)
+        return func(*args, **kwargs)
     return decorator
+

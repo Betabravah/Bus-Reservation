@@ -9,7 +9,7 @@ from route import route_bp
 from bus import bus_bp
 from driver import driver_bp
 from customer import customer_bp
-from model import db, User, UserRole
+from model import db, User, Blacklist
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
@@ -24,8 +24,6 @@ app.register_blueprint(driver_bp, url_prefix='/drivers')
 app.register_blueprint(customer_bp, url_prefix='/customers')
 
 
-
-print(os.getenv('FLASK_SECRET_KEY'))
 auth_manager = AuthenticationManager(os.getenv('FLASK_SECRET_KEY'))
 
 
@@ -50,7 +48,8 @@ def login():
             token = auth_manager.generate_jwt_token(
                 {
                     "id": user.id,
-                    "role": user.role
+                    "role": user.role,
+                    "date": str(datetime.now)
                 }
             )
 
@@ -108,14 +107,22 @@ def register():
 @app.route('/logout')
 @token_required
 def logout():
-    response = jsonify({'message': 'Successfully Logged Out'})
-    return response
+
+    data = auth_manager.verify_token(token)
+    time = data['expiry']
+
+    new_blacklist = Blacklist(token=token, expiry=time)
+
+    db.session.add(new_blacklist)
+    db.session.commit()
+    
+    return jsonify({'message': 'Successfully Logged Out'})
 
 
 
 app.route('/delete', methods=['POST'])
 @token_required
-def delete():
+def delete(x):
     id = request.json.get('id')
     user = db.session.query(User).filter(User.id==id).first()
     
@@ -129,7 +136,6 @@ def delete():
         "Not Found!",
         404
     )
-
 
 
 

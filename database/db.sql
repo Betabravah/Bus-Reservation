@@ -54,3 +54,9 @@ create table Reservation (
     foreign key (scheduledRouteId) references ScheduledRoute(id)
 );
 
+
+create table Blacklist (
+    id int primary key auto_increment not null,
+    token varchar(500) not null,
+    expiry datetime not null
+);

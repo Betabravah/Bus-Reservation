@@ -312,3 +312,35 @@ class Reservation(db.Model):
 
     def __repr__(self):
         return f"Resevation(id={self.id}, reservation_by={self.customerId}, route={self.scheduledRouteId}, seat_number={self.seatNumber})"
+    
+
+class Blacklist(db.Model):
+    """Invalid Tokens Database Model
+    
+    Parameters:
+            id (int): token id
+            token (str): token
+            expiry_date (datetime): expiry date of token
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    token = db.Column(db.String(500))
+    expiry = db.Column(db.DateTime, default=datetime.now)
+
+
+    @staticmethod
+    def get(token: str):
+        """Gets a token from Database
+        
+        Args:
+            token (str): token
+        Returns:
+            Blacklist Object If token is found, None otherwise
+        """
+        blacklist_token = Blacklist.query.filter(Blacklist.token == token).first()
+
+        if blacklist_token:
+            return blacklist_token
+        else:
+            return None
+        
