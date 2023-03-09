@@ -1,5 +1,5 @@
-from flask import Blueprint, request, make_response, jsonify, json, abort
-from flask_sqlalchemy import SQLAlchemy
+from flask import Blueprint, request, make_response, jsonify, abort, redirect, url_for
+from auth import AuthenticationManager, token_required, token, current_user
 from uuid import uuid4
 
 
@@ -7,8 +7,10 @@ from model import User, UserRole, Route, Bus, db
 
 driver_bp = Blueprint('driver_bp', __name__)
 
+auth_manager = AuthenticationManager(os.getenv('FLASK_SECRET_KEY'))
 
 
+@token_required
 @driver_bp.route('/', methods=['GET'])
 def see_drivers():
     drivers = User.get_all_drivers()
@@ -33,24 +35,55 @@ def see_drivers():
     return response
 
 
+@token_required
 @driver_bp.route('/', methods=['POST'])
-def add():
-    id = uuid4()
-    firstname = request.form.get('firstname')
-    middlename = request.form.get('middlename')
-    lastname = request.form.get('lastname')
-    address = request.form.get('address')
-    phonenumber = request.form.get('phonenumber')
-    
+def create():
+    return redirect(url_for('register'))
 
-    new_driver = User(id=id,
-                      firstname=firstname,
-                      middlename=middlename,
-                      lastname=lastname,
-                      address=address,
-                      phonenumber=phonenumber,
-                      role=UserRole.DRIVER)
 
-    db.session.add(new_driver)
+@token_required
+@driver_bp.route('/<id>', methods=['GET'])
+def get():
+    driver = User.get_by_id(id)
+
+    return jsonify({
+        "id": driver.id,
+        "firstname": driver.firstname,
+        "lastname": driver.lastname,
+        "email": driver.email,
+        "dob": driver.dob,
+        "phonenumber": driver.phonenumber,
+        "role": UserRole.DRIVER,
+        }
+    )
+
+@token_required
+@driver_bp.route('<id>/update', methods=['POST'])
+def update():
+    fname = request.json.get('firstname')
+    lname = request.json.get('lastname')
+    email = request.json.get('email')
+    dob = request.json.get('dob')
+    phone = request.json.get('phone')
+
+
+    driver = User.get_by_id(id)
+
+    driver.firstname = fname
+    driver.lastname = lname
+    driver.email = email
+    driver.dob = dob
+    driver.phonenumber = phone
+
     db.session.commit()
+
+
+@token_required
+@driver_bp.route('/delete', methods=['DELETE'])
+def delete():
+    return redirect(url_for('delete'))
+
+
+
+
 

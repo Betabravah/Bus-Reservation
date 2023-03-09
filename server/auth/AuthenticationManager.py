@@ -13,12 +13,12 @@ from model import db, User, Blacklist
 class AuthenticationManager:
     """class used to manage authentication of a user"""
 
-    def __init__(self, key: str, age: int = 604800) -> None:
+    def __init__(self, key: str, age: int = 259200) -> None:
         """
         Args:
             key (str): Encryption Key
             age (int): Age of a token before it expires
-                        (Default value is 604800 seconds or 7 days)
+                        (Default value is 259200 seconds or 3 days)
         """
         self.age = age
         self.key = key
