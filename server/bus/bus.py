@@ -1,4 +1,6 @@
+import os
 from flask import Blueprint, request, make_response, jsonify, json, abort
+from auth import AuthenticationManager, token_required, token, current_user
 from flask_sqlalchemy import SQLAlchemy
 
 from uuid import uuid4
@@ -7,6 +9,7 @@ from model import User, UserRole, Route, Bus, db
 
 bus_bp = Blueprint('bus_bp', __name__)
 
+auth_manager = AuthenticationManager(os.getenv('FLASK_SECRET_KEY'))
 
 
 @bus_bp.route('/', methods=['GET'])
@@ -28,8 +31,9 @@ def see_buses():
     return response
 
 
+@token_required
 @bus_bp.route('/', methods=['POST'])
-def add():
+def create():
     id = uuid4()
     capacity = request.form.get('capacity')
 
@@ -37,4 +41,6 @@ def add():
 
     db.session.add(new_route)
     db.session.commit()
+
+
 
