@@ -10,6 +10,34 @@ from model import User, UserRole, Route, Bus, ScheduledRoute, db
 route_bp = Blueprint('route_bp', __name__)
 
 
+
+class RouteManager():
+    def modify(self, request_params: dict, route):
+        for param in request_params:
+            if param == 'id':
+                return make_response(
+                    "Unprocessable Entity",
+                    401
+                )
+            route.__setattr__(param, request_params[param])
+        
+        # new_route_name = route.'source'[:3] + '-' + route['destination'][:3]
+        # existing_route = Route.get_by_name(new_route_name)
+        # if existing_route:
+        #     return make_response(
+        #         "Route Already Exists",
+        #         400
+        #     )
+
+        # route.__setattr__("routename", new_route_name)
+        db.session.commit()
+        return make_response(
+            "Updated Successfully",
+            200
+        )
+
+route_manager = RouteManager()
+
 @route_bp.route('/', methods=['GET'])
 def see_routes():
     routes = Route.get_all_routes()
@@ -31,25 +59,64 @@ def see_routes():
 
 
 @route_bp.route('/', methods=['POST'])
-def add():
-    id = uuid4()
-    source = request.form.get('source')
-    destination = request.form.get('destination')
+def create():
+    source = request.json.get('source')
+    destination = request.json.get('destination')
+    routename = source[:3] + '-' + destination[:3]
 
-    new_route = Route(id=id, source=source, destination=destination)
+    route = Route.get_by_name(routename)
+    if route:
+        return make_response(
+            "Route Already Exists",
+            400
+        )
+
+    new_route = Route(routename=routename, source=source, destination=destination)
 
     db.session.add(new_route)
     db.session.commit()
+
+    return make_response(
+        "Route Created Successfully",
+        201
+    )
+
+@route_bp.route('/update/<id>', methods=['PATCH'])
+def update(id):
+    route = Route.get_by_id(id)
+    if route:
+        request_params = request.get_json()
+        return route_manager.modify(request_params=request_params, route=route)
+    
+    return make_response(
+        "Route Not Found",
+        404
+    )
+
+
+@route_bp.route('/delete/<id>', methods=['DELETE'])
+def delete(id):
+    route = Route.get_by_id(id)
+
+    if route:
+        db.session.delete(route)
+        db.session.commit()
+
+        return ("", 200)
+    return make_response(
+        "Route Not Found",
+        404
+    )
 
 
 @route_bp.route('/scheduledroutes', methods=['POST'])
 def schedule():
     if current_user.role == UserRole.ADMINISTRATOR:
         id = uuid4()
-        busId = request.form.get('busId')
-        routeId = request.form.get('routeId')
-        departureTime = request.form.get('departureTime')
-        arrivalTime = request.form.get('arrivalTime')
+        busId = request.json.get('busId')
+        routeId = request.json.get('routeId')
+        departureTime = request.json.get('departureTime')
+        arrivalTime = request.json.get('arrivalTime')
 
         new_scheduled_route = ScheduledRoute(id=id, busId=busId, 
                                             routeId=routeId, departureTime=departureTime,
