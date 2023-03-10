@@ -14,7 +14,7 @@ auth_manager = AuthenticationManager(os.getenv('FLASK_SECRET_KEY'))
 
 
 class DriverManager:
-    def modify(request_params: dict, driver: User):
+    def modify(self, request_params: dict, driver: User):
         for param in request_params:
             if param == 'id':
                 return make_response(
@@ -30,7 +30,7 @@ class DriverManager:
                         400
                     )
                 
-            driver.update_entry(param, request_params[param])
+            driver.__setattr__(param, request_params[param])
 
         db.session.commit()
 
@@ -41,7 +41,7 @@ class DriverManager:
 
 driver_manager = DriverManager()
 
-@token_required
+
 @driver_bp.route('/', methods=['GET'])
 def see_drivers():
     drivers = User.get_all_drivers()
@@ -65,7 +65,6 @@ def see_drivers():
     return response
 
 
-@token_required
 @driver_bp.route('/', methods=['POST'])
 def create():
     fname = request.json.get('firstname')
@@ -85,7 +84,7 @@ def create():
         201
     )
 
-@token_required
+
 @driver_bp.route('/<id>', methods=['GET'])
 def get(id):
     driver = User.get_by_id(id)
@@ -101,7 +100,7 @@ def get(id):
         }
     )
 
-@token_required
+
 @driver_bp.route('/update/<id>', methods=['PATCH'])
 def update(id):
 
@@ -119,10 +118,13 @@ def update(id):
 
 
 
-@token_required
-@driver_bp.route('/delete', methods=['DELETE'])
-def delete():
-    return redirect(url_for('delete'))
+@driver_bp.route('/delete/<id>', methods=['DELETE'])
+def delete(id):
+    driver = User.get_by_id(id)
+
+    db.session.delete(driver)
+    db.session.commit()
+    return ('', 204)
 
 
 

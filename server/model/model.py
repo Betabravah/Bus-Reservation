@@ -129,19 +129,6 @@ class User(db.Model):
 
         return customers
     
-    def update_entry(self, attribute: str, new_value: any) -> bool:
-        """Updates values for an entry
-        Args:
-            attribute (str): User Attribute to be modified
-            new_value (any): new attribute value
-        Returns:
-            True if Entry is Modified False Otherwise
-        """
-
-        setattr(self, attribute, new_value)
-
-
-    
 
     def __repr__(self):
         return f"user(id={self.id}, first_name={self.firstname}, last_name={self.lastname}, role={self.role})"
