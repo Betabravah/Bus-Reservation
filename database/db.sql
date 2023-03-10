@@ -6,7 +6,8 @@ use brs;
 
 
 create table Bus (
-    id varchar(10) primary key not null,
+    id int primary key auto_increment not null,
+    `name` varchar(15) not null,
     capacity int not null        
 );
 
@@ -22,16 +23,17 @@ create table User (
 );
 
 create table Route (
-    id varchar(10) primary key not null,
+    id int primary key auto_increment not null,
+    routename varchar(10) not null,
     source varchar(50) not null,
     destination varchar(50) not null
-)
+);
 
 
 create table ScheduledRoute (
-    id varchar(10) primary key not null,
-    busId varchar(10) not null,
-    routeId varchar(10) not null,
+    id int primary key auto_increment not null,
+    busId int not null,
+    routeId int not null,
     departureTime datetime not null,
     arrivalTime datetime not null,
 
@@ -42,10 +44,10 @@ create table ScheduledRoute (
 
 
 create table Reservation (
-    id varchar(10) primary key not null,
-    customerId varchar(10) not null,
-    busId varchar(10) not null,
-    scheduledRouteId varchar(10) not null,
+    id int primary key auto_increment not null,
+    customerId int not null,
+    busId int not null,
+    scheduledRouteId int not null,
     seatNumber int not null,
     purchaseDate datetime not null,
 
