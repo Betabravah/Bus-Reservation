@@ -144,7 +144,8 @@ class Bus(db.Model):
             capacity (int): the number of seats a bus has
     """
 
-    id = db.Column(db.String(10), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(15))
     capacity = db.Column(db.Integer)
 
 
@@ -182,17 +183,18 @@ class Route(db.Model):
     Route Databse Model
 
     Parameters:
-            id (str): unique id that identifies a single route
+            id (int): unique id that identifies a single route
             source (str): beginning of route
             destination (str): end of route
     """
 
-    id = db.Column(db.String(10), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     source = db.Column(db.String(50))
     destination = db.Column(db.String(50))
+    routename = db.Column(db.String(10))
 
     @staticmethod
-    def get(route_id: str):
+    def get_by_id(route_id: str):
         """Queries route from Databse
         
         Args:
@@ -215,6 +217,21 @@ class Route(db.Model):
         routes = Route.query.all()
         return routes
 
+    @staticmethod
+    def get_by_name(name:str):
+        """Gets route of given name
+        
+        Args:
+            name (str): route name
+        Returns:
+            Route object if found, None otherwise"""
+        
+        try:
+            route = Route.query.filter_by(routename=name).first()
+            return route
+        
+        except:
+            return None
 
     def __repr__(self):
         return f"Route(id={self.id}, source={self.source}, destination={self.destination})"
