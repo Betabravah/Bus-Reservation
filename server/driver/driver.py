@@ -89,15 +89,21 @@ def create():
 def get(id):
     driver = User.get_by_id(id)
 
-    return jsonify({
-        "id": driver.id,
-        "firstname": driver.firstname,
-        "lastname": driver.lastname,
-        "email": driver.email,
-        "dob": driver.dob,
-        "phonenumber": driver.phonenumber,
-        "role": UserRole.DRIVER,
-        }
+    if driver:
+        return jsonify({
+            "id": driver.id,
+            "firstname": driver.firstname,
+            "lastname": driver.lastname,
+            "email": driver.email,
+            "dob": driver.dob,
+            "phonenumber": driver.phonenumber,
+            "role": UserRole.DRIVER,
+            }
+        )
+    
+    return make_response(
+        "Driver Not Found",
+        404
     )
 
 
