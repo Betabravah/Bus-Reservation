@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from uuid import uuid4
 
-from model import User, UserRole, Route, Bus, db
+from model import User, UserRole, Route, Bus, db, ScheduledRoute
 
 bus_bp = Blueprint('bus_bp', __name__)
 
@@ -26,6 +26,29 @@ class BusManager():
         return make_response(
             "Updated Successfully",
             200
+        )
+    
+    
+    def assign_to_route(self, busId, routeId, departure, arrival):
+        routes = ScheduledRoute.get_all_assigned(busId)
+
+        if routes:
+            for route in routes:
+                if route.departureTime <= departure <= route.arrivalTime:
+                    return make_response(
+                        "Schedule Conflict!",
+                        400
+                    )
+                
+        new_schedule = ScheduledRoute(busId=busId, routeId=routeId,
+                            departureTime=departure, arrivalTime=arrival)
+
+        db.session.add(new_schedule)
+        db.session.commit()
+
+        return make_response(
+            "Bus Assigned to Route Successfully",
+            201
         )
 
 bus_manager = BusManager()
@@ -106,6 +129,23 @@ def delete(id):
         404
     )
 
+    
+@bus_bp.route('/assign', methods=['POST'])
+def assign():
+    busId = request.json.get('busId')
+    routeId = request.json.get('routeId')
+    departure = request.json.get('deaprture-time')
+    arrival = request.json.get('arrival-time')
+
+    bus = Bus.get(busId)
+    route = Route.get_by_id(routeId)
+
+    if bus and route:
+        return bus_manager.assign_to_route(busId, routeId, departure, arrival)
+    return make_response(
+        "Not Found",
+        404
+    )
     
 
 

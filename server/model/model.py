@@ -243,15 +243,15 @@ class ScheduledRoute(db.Model):
     Scheduled Routes Databse Model
 
     Parameters:
-            id (str): unique id that identifies a ascheduled route
+            id (int): unique id that identifies a ascheduled route
             routeId (str): unique id that identifies route
             departureTime (datetime): time of bus departure from source
             arrivaltime (datetime): time of bus arrival at destination
     """
 
-    id = db.Column(db.String(10), primary_key=True)
-    busId = db.Column(db.String(10), db.ForeignKey(Bus.id))
-    routeId = db.Column(db.String(10), db.ForeignKey(Route.id))
+    id = db.Column(db.Integer, primary_key=True)
+    busId = db.Column(db.Integer, db.ForeignKey(Bus.id))
+    routeId = db.Column(db.Integer, db.ForeignKey(Route.id))
     departureTime = db.Column(db.DateTime, default=datetime.now)
     arrivalTime = db.Column(db.DateTime, default=datetime.now)
 
@@ -263,12 +263,29 @@ class ScheduledRoute(db.Model):
     def get_all_scheduled():
         """Gets all Scheduled Routes
         Returns:
-            list: list of schuduled routes
+            list: list of scheduled routes
         """
 
         scheduled_routes = ScheduledRoute.query.all()
 
         return scheduled_routes
+
+
+    @staticmethod
+    def get_all_assigned(id:int):
+        """Gets all Scheduled Routes assigned to a bus
+
+        Args:
+            id (int): Bus ID
+        Returns:
+            list: list of Scheduled Routes"""
+        
+        try:
+            assigned_routes = ScheduledRoute.query.filter(busId=id)
+            return assigned_routes
+        except:
+            return None
+
 
     def __repr__(self):
         return f"Scheduled-Route(id={self.id}, bus={self.busId} route={self.routeId}, departure={self.departureTime}, arrival={self.arrivalTime})"

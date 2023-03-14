@@ -108,6 +108,10 @@ def delete(id):
         404
     )
 
+@route_bp.route('/reserve', methods=['POST'])
+def reserve():
+    busId = request.json.get('busId')
+
 
 @route_bp.route('/scheduledroutes', methods=['POST'])
 def schedule():

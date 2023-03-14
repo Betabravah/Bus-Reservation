@@ -24,7 +24,7 @@ create table User (
 
 create table Route (
     id int primary key auto_increment not null,
-    routename varchar(10) not null,
+    routename varchar(10) not null, 
     source varchar(50) not null,
     destination varchar(50) not null
 );
