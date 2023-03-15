@@ -40,8 +40,6 @@ class DriverManager:
         )
     
     def assign(self, driverId: int, busId: int):
-        x = BusAssignment.get_by_bus(busId)
-        print(5555555555555555555555555555555, x)
         if not BusAssignment.get_by_bus(busId) and not BusAssignment.get_by_driver(driverId=driverId):
             new_assignment = BusAssignment(busId=busId, driverId=driverId)
 
