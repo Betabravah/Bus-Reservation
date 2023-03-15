@@ -4,7 +4,7 @@ from auth import AuthenticationManager, token_required, token, current_user
 from dotenv import load_dotenv
 from uuid import uuid4
 
-from model import User, UserRole, Route, Bus, db
+from model import User, UserRole, BusAssignment, Bus, db
 
 load_dotenv()
 
@@ -39,8 +39,24 @@ class DriverManager:
             200
         )
     
-    def assign(self, driver: User, bus: Bus):
+    def assign(self, driverId: int, busId: int):
+        x = BusAssignment.get_by_bus(busId)
+        print(5555555555555555555555555555555, x)
+        if not BusAssignment.get_by_bus(busId) and not BusAssignment.get_by_driver(driverId=driverId):
+            new_assignment = BusAssignment(busId=busId, driverId=driverId)
+
+            db.session.add(new_assignment)
+            db.session.commit()
+
+            return make_response(
+                "Driver Assigned to Bus Successfully",
+                201
+            )
         
+        return make_response(
+            "Schedule Conflict",
+            400
+        )
 
 driver_manager = DriverManager()
 
@@ -151,7 +167,7 @@ def assign():
     bus = Bus.get(busId)
 
     if driver and bus:
-        return driver_manager.assign(driver, bus)
+        return driver_manager.assign(driverId=driverId, busId=busId)
     
     return make_response(
         "Not Found",

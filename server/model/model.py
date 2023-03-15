@@ -290,6 +290,65 @@ class ScheduledRoute(db.Model):
 
     def __repr__(self):
         return f"Scheduled-Route(id={self.id}, bus={self.busId} route={self.routeId}, departure={self.departureTime}, arrival={self.arrivalTime})"
+    
+
+class BusAssignment(db.Model):
+    """Driver-Bus Assignment Database Model
+    
+    Parameters:
+        id (int): unique id that identifies a single driver to bus assignment
+        busId (int): unique id that identifies a bus
+        driverId (int): unique id that identifies a driver
+    """
+
+    __tablename__ = "BusAssignment"
+
+    id = db.Column(db.Integer, primary_key=True)
+    busId = db.Column(db.Integer, db.ForeignKey(Bus.id))
+    driverId = db.Column(db.Integer, db.ForeignKey(User.id))
+
+    bus = db.relationship(Bus, foreign_keys=[busId])
+    driver = db.relationship(User, foreign_keys=[driverId])
+
+
+    @staticmethod
+    def get_by_bus(busId: int):
+        """Gets driver-bus assignment from database
+        
+        Args:
+            busId (int): bus id
+        
+        Returns:
+            BusAssignment object if found, none otherwise"""
+        
+        try:
+            assignment = BusAssignment.query.filter_by(
+                busId=busId
+            ).first()
+            return assignment
+        except:
+            return None
+        
+    
+    @staticmethod
+    def get_by_driver(driverId: int):
+        """Gets driver-bus assignment from database
+        
+        Args:
+            driverId (int): bus id
+        
+        Returns:
+            BusAssignment object if found, none otherwise"""
+        
+        try:
+            assignment = BusAssignment.query.filter_by(
+                driverId=driverId
+            ).first()
+            return assignment
+        except:
+            return None
+        
+
 
 class Reservation(db.Model):
     """

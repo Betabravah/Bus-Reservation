@@ -61,3 +61,12 @@ create table Blacklist (
     id int primary key auto_increment not null,
     token varchar(500) not null
 );
+
+create table BusAssignment (
+    id int primary key auto_increment not null,
+    busId int not null,
+    driverId int not null,
+
+    foreign key (busId) references Bus(id),
+    foreign key (driverId) references User(id)
+);
