@@ -18,7 +18,7 @@ class User(db.Model):
     User Databse Model 
     
     Parameters:
-            id (str): unique id to identify single user
+            id (int): unique id to identify single user
             password (str): user's hashed password
             role (str): user's role type in the system
             firstname (str): first name of user
@@ -41,7 +41,7 @@ class User(db.Model):
     def get_by_id(user_id: str):
         """Queries User from Databse
         Args:
-            user_id (str): user id
+            user_id (int): user id
         Returns:
             User: user object if found else None"""
         
@@ -70,14 +70,14 @@ class User(db.Model):
     def get_driver(driver_id: str):
         """Queries Driver from Databse
         Args:
-            driver_id (str): driver id
+            driver_id (int): driver id
         Returns:
             User: user object if found else None"""
         
         try:
             driver = User.query.filter_by(
-                id=driver_id,
-                role=UserRole.DRIVER
+                role=UserRole.DRIVER,
+                id=driver_id        
             ).first()
 
             return driver
@@ -88,7 +88,7 @@ class User(db.Model):
     def get_customer(customer_id: str):
         """Queries Customer from Databse
         Args:
-            customer_id (str): cusomer id
+            customer_id (int): cusomer id
         Returns:
             Customer: User object if found else None"""
         
@@ -140,7 +140,7 @@ class Bus(db.Model):
     Bus Databse Model
 
     Parameters:
-            id (str): unique id that identifies a single bus
+            id (int): unique id that identifies a single bus
             capacity (int): the number of seats a bus has
     """
 
@@ -153,7 +153,7 @@ class Bus(db.Model):
     def get(bus_id: str):
         """Queries bus from Databse
         Args:
-            bus_id (str): bus id
+            bus_id (int): bus id
         Returns:
             Bus: Bus object if found else None
         """
@@ -198,7 +198,7 @@ class Route(db.Model):
         """Queries route from Databse
         
         Args:
-            route_id: route id
+            route_id (int): route id
         
         Returns:
             Route: Route object if found else None"""
@@ -244,16 +244,17 @@ class ScheduledRoute(db.Model):
 
     Parameters:
             id (int): unique id that identifies a ascheduled route
-            routeId (str): unique id that identifies route
+            routeId (int): unique id that identifies route
             departureTime (datetime): time of bus departure from source
             arrivaltime (datetime): time of bus arrival at destination
     """
-
+    __tablename__ = "ScheduledRoute"
+    
     id = db.Column(db.Integer, primary_key=True)
     busId = db.Column(db.Integer, db.ForeignKey(Bus.id))
     routeId = db.Column(db.Integer, db.ForeignKey(Route.id))
-    departureTime = db.Column(db.DateTime, default=datetime.now)
-    arrivalTime = db.Column(db.DateTime, default=datetime.now)
+    departureTime = db.Column(db.DateTime)
+    arrivalTime = db.Column(db.DateTime)
 
     bus = db.relationship(Bus, foreign_keys=[busId])
     route = db.relationship(Route, foreign_keys=[routeId])
@@ -281,7 +282,7 @@ class ScheduledRoute(db.Model):
             list: list of Scheduled Routes"""
         
         try:
-            assigned_routes = ScheduledRoute.query.filter(busId=id)
+            assigned_routes = ScheduledRoute.query.filter_by(busId=id)
             return assigned_routes
         except:
             return None
@@ -295,18 +296,18 @@ class Reservation(db.Model):
     Reservation Databse Model
 
     Parameters:
-            id (str): unique id that identifies a single reservation
-            customerId (str): unique id that identifies the owner of the reservation
-            busId (str): unique id that identifies the bus the reservation is made on
-            scheduledRouteId (str): unique id that identifies a scheduled route the reservation is made on
+            id (int): unique id that identifies a single reservation
+            customerId (int): unique id that identifies the owner of the reservation
+            busId (int): unique id that identifies the bus the reservation is made on
+            scheduledRouteId (int): unique id that identifies a scheduled route the reservation is made on
             seatNumber (int): seat of reservation
             purchaseDate (datetime): time of reservation
     """
 
-    id = db.Column(db.String(10), primary_key=True)
-    customerId = db.Column(db.String(10), db.ForeignKey(User.id))
-    busId = db.Column(db.String(10), db.ForeignKey(Bus.id))
-    scheduledRouteId = db.Column(db.String(10), db.ForeignKey(ScheduledRoute.id))
+    id = db.Column(db.Integer, primary_key=True)
+    customerId = db.Column(db.Integer, db.ForeignKey(User.id))
+    busId = db.Column(db.Integer, db.ForeignKey(Bus.id))
+    scheduledRouteId = db.Column(db.Integer, db.ForeignKey(ScheduledRoute.id))
     seatNumber = db.Column(db.Integer)
     purchaseDate = db.Column(db.DateTime, default=datetime.now)
 
@@ -336,7 +337,7 @@ class Reservation(db.Model):
     def cancel(id: str):
         """ Cancels a reservation of a user 
         Args:
-            id (str): reservation id
+            id (int): reservation id
             
         Returns:
             None

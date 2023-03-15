@@ -38,6 +38,9 @@ class DriverManager:
             "Updated successfully",
             200
         )
+    
+    def assign(self, driver: User, bus: Bus):
+        
 
 driver_manager = DriverManager()
 
@@ -72,6 +75,12 @@ def create():
     email = request.json.get('email')
     dob = request.json.get('dob')
     phone = request.json.get('phone')
+
+    if not fname or not lname or not email:
+        return make_response(
+            "Please Send all required fields",
+            400
+        )
 
     new_driver = User(firstname=fname, lastname=lname, email=email,
                     dob=dob, phonenumber=phone, role=UserRole.DRIVER)
@@ -133,6 +142,20 @@ def delete(id):
     return ('', 204)
 
 
+@driver_bp.route('/assign', methods=['POST'])
+def assign():
+    driverId = request.json.get('driverId')
+    busId = request.json.get('busId')
 
+    driver = User.get_driver(driverId)
+    bus = Bus.get(busId)
+
+    if driver and bus:
+        return driver_manager.assign(driver, bus)
+    
+    return make_response(
+        "Not Found",
+        404
+    )
 
 
