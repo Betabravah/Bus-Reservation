@@ -2,6 +2,7 @@ import os
 from flask import Blueprint, request, make_response, jsonify, json, abort
 from auth import AuthenticationManager, token_required, token, current_user
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 from uuid import uuid4
 
@@ -29,12 +30,15 @@ class BusManager():
         )
     
     
-    def assign_to_route(self, busId, routeId, departure, arrival):
+    def assign_to_route(self, busId: int, routeId: int, departure, arrival):
+        departure = datetime.strptime(departure, '%m/%d/%y %H:%M:%S')
+        arrival = datetime.strptime(arrival, '%m/%d/%y %H:%M:%S')
+        
         routes = ScheduledRoute.get_all_assigned(busId)
 
         if routes:
             for route in routes:
-                if route.departureTime <= departure <= route.arrivalTime:
+                if (route.departureTime <= departure <= route.arrivalTime) or (route.departureTime <= arrival <= route.arrivalTime):
                     return make_response(
                         "Schedule Conflict!",
                         400
@@ -134,7 +138,7 @@ def delete(id):
 def assign():
     busId = request.json.get('busId')
     routeId = request.json.get('routeId')
-    departure = request.json.get('deaprture-time')
+    departure = request.json.get('departure-time')
     arrival = request.json.get('arrival-time')
 
     bus = Bus.get(busId)
